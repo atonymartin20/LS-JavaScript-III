@@ -126,6 +126,44 @@ Humanoid.prototype.greet = function() {
 
 
   // Stretch task: 
-  // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
+  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+  
+function Villian(obj) {
+// * Create Villain constructor function that inherits from the Humanoid constructor function.  
+  Humanoid.call(this, obj);
+  
+}
+
+Villian.prototype = Object.create(Humanoid.prototype);
+
+Humanoid.prototype.backStab = function(hero) {
+  console.log(`Hero former health was ${hero.healthPoints}.`);
+  console.log(`${hero.name} loses 3 health.`);
+  hero.healthPoints -= 2;
+  console.log(`Hero new health is ${hero.healthPoints}`);
+  if (hero.healthPoints <= 0 ) {
+    hero.destroy();
+  }
+  return (`${this.name} offers a greeting in ${this.language}`);
+}
+
+function Hero(obj) {
+// * Create Hero constructor function that inherits from the Humanoid constructor function.  
+  Humanoid.call(this, obj);
+  
+}
+
+Hero.prototype = Object.create(Humanoid.prototype);
+
+Hero.prototype.lunge = function(villian) {
+  console.log(`Villian former health was ${villain.healthPoints}.`);
+  console.log(`${villian.name} loses 2 health.`);
+  villain.healthPoints -= 2;
+  console.log(`Villain new health is ${villain.healthPoints}.`)
+  if (villian.healthPoints <= 0) {
+    villian.destroy();
+  }
+  return (`${this.name} lunges at ${villian.name} dealing 2 damage.`)
+}
