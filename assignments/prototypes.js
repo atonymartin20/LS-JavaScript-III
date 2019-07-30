@@ -18,41 +18,48 @@ function GameObject(obj) {
   this.dimensions = obj.dimensions;
 }
 
+// * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 GameObject.prototype.destroy = function() {
   return `${this.name} was removed from the game.`;
 }
-  // * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 
-
-  // === CharacterStats ===
+// === CharacterStats ===
 function CharacterStats(obj) {
-// * healthPoints
-  this.healthPoints = obj.healthPoints;
-}
+// * Instances of CharacterStats should have all of the same properties as GameObject.
+  GameObject.call(this, obj);
 
-// * takeDamage() // prototype method -> returns the string '<object name> took damage.'
-CharacterStats.prototype.takeDamage = function() {
-  return `${this.name}took damage.`;
+  // * healthPoints
+  this.healthPoints = obj.healthPoints;
 }
 // * should inherit destroy() from GameObject's prototype
 CharacterStats.prototype = Object.create(GameObject.prototype);
 
+// * takeDamage() // prototype method -> returns the string '<object name> took damage.'
+CharacterStats.prototype.takeDamage = function() {
+  return `${this.name} took damage.`;
+}
 
-/*
-  === Humanoid (Having an appearance or character resembling that of a human.) ===
-  * team
-  * weapons
-  * language
-  * greet() // prototype method -> returns the string '<object name> offers a greeting in <object language>.'
-  * should inherit destroy() from GameObject through CharacterStats
-  * should inherit takeDamage() from CharacterStats
-*/
- 
-/*
-  * Inheritance chain: GameObject -> CharacterStats -> Humanoid
-  * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
-  * Instances of CharacterStats should have all of the same properties as GameObject.
-*/
+// === Humanoid (Having an appearance or character resembling that of a human.) ===
+function Humanoid(obj) {
+// * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
+  CharacterStats.call(this, obj);
+  // * team
+  this.team = obj.team;
+  // * weapons
+  this.weapons = obj.weapons;
+  // * language
+  this.language = obj.language;  
+}
+// * should inherit destroy() from GameObject through CharacterStats
+// * should inherit takeDamage() from CharacterStats
+Humanoid.prototype = Object.create(CharacterStats.prototype);
+
+// * greet() // prototype method -> returns the string '<object name> offers a greeting in <object language>.'
+Humanoid.prototype.greet = function() {
+  return (`${this.name} offers a greeting in ${this.language}`);
+}
+
+// * Inheritance chain: GameObject -> CharacterStats -> Humanoid
 
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
