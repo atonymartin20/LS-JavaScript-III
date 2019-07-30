@@ -138,15 +138,20 @@ function Villian(obj) {
 
 Villian.prototype = Object.create(Humanoid.prototype);
 
-Humanoid.prototype.backStab = function(hero) {
-  console.log(`Hero former health was ${hero.healthPoints}.`);
-  console.log(`${hero.name} loses 3 health.`);
-  hero.healthPoints -= 2;
-  console.log(`Hero new health is ${hero.healthPoints}`);
-  if (hero.healthPoints <= 0 ) {
-    hero.destroy();
+Villian.prototype.backStab = function(hero) {
+  if (this.healthPoints <= 0) {
+    return(`${this.name} has been defeated in battle and can not attack.`);
   }
-  return (`${this.name} offers a greeting in ${this.language}`);
+  if (hero.healthPoints > 0 ) {
+    hero.healthPoints -= 3;
+    if (hero.healthPoints <= 0 ) {
+      return(`${this.name} back stabs their opponent dealing 3 damage.  \n ${hero.destroy()}`);
+    }
+    return (`${this.name} back stabs their opponent dealing 3 damage.  \n ${hero.name} - ${hero.healthPoints}`);
+  }
+  else {
+    return (`${hero.name} is already defeated.`);
+  }
 }
 
 function Hero(obj) {
@@ -158,12 +163,63 @@ function Hero(obj) {
 Hero.prototype = Object.create(Humanoid.prototype);
 
 Hero.prototype.lunge = function(villian) {
-  console.log(`Villian former health was ${villain.healthPoints}.`);
-  console.log(`${villian.name} loses 2 health.`);
-  villain.healthPoints -= 2;
-  console.log(`Villain new health is ${villain.healthPoints}.`)
-  if (villian.healthPoints <= 0) {
-    villian.destroy();
+  if (this.healthPoints <= 0) {
+    return(`${this.name} has been defeated in battle and can not attack.`);
   }
-  return (`${this.name} lunges at ${villian.name} dealing 2 damage.`)
+  if (villian.healthPoints > 0) {
+    villian.healthPoints -= 2;
+    if (villian.healthPoints <= 0) {
+      return(`${this.name} lunges at ${villian.name} dealing 2 damage. \n ${villian.destroy()}`);
+    }
+    return (`${this.name} lunges at ${villian.name} dealing 2 damage. \n ${villian.name} - ${villian.healthPoints}`)
+  }
+  else {
+    return (`${villian.name} is already defeated.`)
+  }
 }
+
+const hero1 = new Hero({
+  createdAt: new Date(),
+  dimensions: {
+    length: 5,
+    width: 5,
+    height: 5,
+  },
+  healthPoints: 15,
+  name: 'Herald the Heretic',
+  team: 'Rome',
+  weapons: [
+    'long sword'
+  ],
+  language: 'Italian',
+});
+
+const villian1 = new Villian({
+  createdAt: new Date(),
+  dimensions: {
+    length: 5,
+    width: 5,
+    height: 5,
+  },
+  healthPoints: 10,
+  name: 'Lazy Luna',
+  team: 'Sicily',
+  weapons: [
+    'staff'
+  ],
+  language: 'Italian',
+})
+
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+console.log(hero1.lunge(villian1)); // Hero attacks
+console.log(villian1.backStab(hero1)); // Villian attacks
+
